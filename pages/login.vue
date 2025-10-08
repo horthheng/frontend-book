@@ -12,14 +12,18 @@
     >
       <!-- Logo -->
       <div class="flex items-center justify-center -mt-20 mb-6">
-        <div class="bg-gray-300 p-4 rounded-full border border-white/40 shadow-md">
-          <img src="/logo.png" alt="Logo" class="w-16 h-16 object-contain rounded-full" />
+        <div
+          class="bg-gray-300 p-4 rounded-full border border-white/40 shadow-md"
+        >
+          <img
+            src="/logo.png"
+            alt="Logo"
+            class="w-16 h-16 object-contain rounded-full"
+          />
         </div>
       </div>
 
-      <h2 class="text-center text-white text-2xl font-semibold mb-8">
-        Login
-      </h2>
+      <h2 class="text-center text-white text-2xl font-semibold mb-8">Login</h2>
 
       <!-- Form -->
       <form @submit.prevent="handleLogin" class="space-y-6">
@@ -52,7 +56,7 @@
             />
             <span>Remember me</span>
           </label>
-          <a href="#" class="hover:underline">Forgot Password?</a>
+          <a href="/register" class="hover:underline">Forgot Password?</a>
         </div>
 
         <!-- Button -->
@@ -68,27 +72,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import axios, { type AxiosError } from 'axios'
+import { ref } from "vue";
+import axios, { type AxiosError } from "axios";
+import { useRouter } from "vue-router";
 
-const email = ref('')
-const password = ref('')
+const email = ref("");
+const password = ref("");
+const router = useRouter();
 
 const handleLogin = async () => {
   try {
-    // Use Axios instance directly
-    const response = await axios.post('http://localhost:5000/api/login', {
+    const response = await axios.post("http://localhost:5000/api/auth/login", {
       email: email.value,
       password: password.value,
-    })
+    });
 
-    console.log('Login Response:', response.data)
-    alert('Login successful!')
+    console.log("Login Response:", response.data);
+    // Redirect to home page
+    router.push("/");
   } catch (err: any) {
-    console.error('Login Error:', err)
-    alert('Login failed: ' + (err.response?.data?.message || err.message))
+    console.error("Login Error:", err);
   }
-}
+};
 </script>
 
 <style scoped>
